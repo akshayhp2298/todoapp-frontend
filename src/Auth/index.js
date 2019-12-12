@@ -23,6 +23,7 @@ export default async (type, params) => {
         localStorage.setItem('token',data.token)
         return Promise.resolve()
       }else{
+        alert(data.message)
         return Promise.reject()
       }
     } catch (exception) {

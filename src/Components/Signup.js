@@ -9,10 +9,11 @@ import Box from "@material-ui/core/Box"
 import Grid from "@material-ui/core/Grid"
 import Typography from "@material-ui/core/Typography"
 import { MadeWithLove, useStyles } from "./Login"
+import { useNotify } from "react-admin"
 
 export default (props) => {
   const classes = useStyles()
-
+  
   return (
     <Grid container component="main" className={classes.root}>
       <CssBaseline />

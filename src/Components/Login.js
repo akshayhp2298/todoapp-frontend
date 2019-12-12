@@ -143,6 +143,7 @@ class MyLoginPage extends Component {
   signup = async e => {
     e.preventDefault()
     //get Data
+
     try {
       const credentials = {
         name: document.getElementById("name").value,

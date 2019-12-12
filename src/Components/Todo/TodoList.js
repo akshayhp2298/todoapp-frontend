@@ -18,6 +18,7 @@ import CardHeader from "@material-ui/core/CardHeader"
 import Avatar from "@material-ui/core/Avatar"
 import PersonIcon from "@material-ui/core/Avatar"
 import { TODOS } from "../../dataProvider"
+import { useNotify } from "ra-core"
 
 const cardStyle = {
   width: "45%",
@@ -27,6 +28,7 @@ const cardStyle = {
   verticalAlign: "top"
 }
 const TodoGrid = ({ ids, data, basePath }) =>
+
   ids.length !== 0 ? (
     <div style={{ margin: "2em" }}>
       {ids.map(id => (
@@ -82,6 +84,7 @@ export default props => (
 )
 
 const CustomDateField = ({ record = {}, source }) => {
+  
   const data = new Date(record[source])
 
   return <span>{data.toDateString()}</span>

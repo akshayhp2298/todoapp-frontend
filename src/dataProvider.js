@@ -22,6 +22,20 @@ export const TODOS = "Todos"
  * @returns {Promise} the Promise for a data response
  */
 export default async (type, resource, params) => {
+  if(type === CREATE && resource === TODOS) {
+    console.log(params.data.path)
+    return
+    const file = params.data.path.rawFile
+    let formdata = new FormData()
+    formdata.append('file',file)
+    formdata.append('upload_preset','mgfc0zar')
+    let response = await fetch(`https://api.cloudinary.com/v1_1/dxety0ieg/image/upload`,{
+      method:"POST",
+      body:formdata,
+    })
+    response = await response.json()
+    params.data.path = response.secure_url
+  }
   console.log("Dataprovider", type, resource, params)
   let url = ""
   const options = {
