@@ -1,26 +1,19 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react"
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import { Route } from "react-router";
+import Signup from './Components/Signup'
+import { Admin, Resource } from "react-admin"
+import Todos from "./Components/Todo"
+import dataProvider, { TODOS } from "./dataProvider"
+import authProvider from './Auth'
+import login from './Components/Login'
+const App = () => (
+  <Admin dataProvider={dataProvider} authProvider={authProvider} loginPage={login}
+  customRoutes={[
+      <Route exact path="/signup" component={Signup} noLayout />
+    ]}>
+    <Resource name={TODOS} {...Todos} />
+  </Admin>
+)
 
-export default App;
+export default App
