@@ -23,8 +23,7 @@ export const TODOS = "Todos"
  */
 export default async (type, resource, params) => {
   if(type === CREATE && resource === TODOS) {
-    console.log(params.data.path)
-    return
+    
     const file = params.data.path.rawFile
     let formdata = new FormData()
     formdata.append('file',file)
