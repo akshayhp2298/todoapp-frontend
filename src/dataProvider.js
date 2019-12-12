@@ -168,6 +168,10 @@ export default async (type, resource, params) => {
     })
     .then(json => {
       console.log(json)
+      if(!json.done) {
+        alert(json.message)
+        return
+      }
       switch (type) {
         case GET_MANY:
           console.log("data in get many", json)
