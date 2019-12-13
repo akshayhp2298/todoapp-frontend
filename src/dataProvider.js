@@ -8,9 +8,8 @@ import {
   GET_MANY,
   DELETE_MANY
 } from "react-admin"
-
-// const apiUrl = "https://todoapp2298.herokuapp.com/api"
-const apiUrl = "http://localhost:3003/api"
+const apiUrl = "https://todoapp2298.herokuapp.com/api"
+// const apiUrl = "http://localhost:3003/api"
 export const API_URL = apiUrl
 export const TODOS = "Todos"
 /**
@@ -23,7 +22,8 @@ export const TODOS = "Todos"
  */
 export default async (type, resource, params) => {
   if (params.filter && params.filter.q) delete params.filter.q
-  if (type === CREATE || (type === UPDATE && resource === TODOS)) {
+  if ((type === CREATE || type === UPDATE) && (resource === TODOS) && params.data.path) {
+    console.log("checking for path")
     const file = params.data.path.rawFile
     let url = `https://api.cloudinary.com/v1_1/dxety0ieg`
     if (file.type.includes("image")) {
@@ -178,8 +178,8 @@ export default async (type, resource, params) => {
     .then(json => {
       console.log(json)
       if (!json.done) {
-        alert(json.message)
-        return
+        // alert(json.message)
+        return Promise.reject(json.message)
       }
       switch (type) {
         // case GET_MANY:

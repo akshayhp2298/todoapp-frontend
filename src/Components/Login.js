@@ -192,11 +192,4 @@ class MyLoginPage extends Component {
   }
 }
 
-function Sample(props) {
-  return (
-    <div>
-      <Button onClick={() => props.changeState(true)}>click here</Button>
-    </div>
-  )
-}
 export default connect(undefined, { userLogin })(MyLoginPage)
