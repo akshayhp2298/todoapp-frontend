@@ -19,9 +19,9 @@ export default props => (
       <SelectInput
         source="status"
         choices={[
-          { id: "in-process", name: "in-process" },
-          { id: "todo", name: "todo" },
-          { id: "done", name: "done" }
+          { id: "in-process", name: "In-process" },
+          { id: "todo", name: "Todo" },
+          { id: "done", name: "Done" }
         ]}
       />
       <ImageInput source="path" label="Related pictures" accept="image/*">

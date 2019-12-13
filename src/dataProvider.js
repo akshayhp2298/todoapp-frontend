@@ -9,8 +9,8 @@ import {
   DELETE_MANY
 } from "react-admin"
 
-// const apiUrl = "https://todoapp2298.herokuapp.com/api"
-const apiUrl = "http://localhost:3003/api"
+const apiUrl = "https://todoapp2298.herokuapp.com/api"
+// const apiUrl = "http://localhost:3003/api"
 export const API_URL = apiUrl
 export const TODOS = "Todos"
 /**
