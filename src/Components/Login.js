@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import { Redirect } from 'react-router';
-import { userLogin, useNotify } from "react-admin"
+import { userLogin } from "react-admin"
 import Avatar from "@material-ui/core/Avatar"
 import Button from "@material-ui/core/Button"
 import CssBaseline from "@material-ui/core/CssBaseline"
@@ -131,8 +131,6 @@ class MyLoginPage extends Component {
   }
   submit = e => {
     e.preventDefault()
-    // gather your data/credentials here
-    // console.log(document.getElementById("email").value)
     const credentials = {
       username: document.getElementById("email").value,
       password: document.getElementById("password").value
