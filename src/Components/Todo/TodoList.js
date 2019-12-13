@@ -7,21 +7,33 @@ import {
   EditButton,
   DeleteButton,
   Filter,
-  TextInput
+  TextInput,
+  SimpleList
 } from "react-admin"
 
+const isSmall = window.innerWidth <= 600
 export default props => (
   <List {...props} title="Todos" filters={<TodoFilter />}>
-    <Datagrid rowClick="show">
-      <TextField source="title" />
-      <TextField source="desc" />
-      <ChipField source="status" />
-      <CustomDateField source="targetDate" {...props} />
-      <CustomDateField source="createdAt" {...props} />
-      <TextField source="type"/>
-      <DeleteButton/>
-      <EditButton />
-    </Datagrid>
+    {isSmall ? (
+      <SimpleList
+        primaryText={record => record.title}
+        secondaryText={record => record.desc}
+        tertiaryText={record =>
+          new Date(record.targetDate).toLocaleDateString()
+        }
+      />
+    ) : (
+      <Datagrid rowClick="show">
+        <TextField source="title" />
+        <TextField source="desc" />
+        <ChipField source="status" />
+        <CustomDateField source="targetDate" {...props} />
+        <CustomDateField source="createdAt" {...props} />
+        <TextField source="type" />
+        <DeleteButton />
+        <EditButton />
+      </Datagrid>
+    )}
   </List>
 )
 
