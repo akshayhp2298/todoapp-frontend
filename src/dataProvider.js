@@ -9,8 +9,8 @@ import {
   DELETE_MANY
 } from "react-admin"
 
-const apiUrl = "https://todoapp2298.herokuapp.com/api"
-// const apiUrl = "http://localhost:3003/api"
+// const apiUrl = "https://todoapp2298.herokuapp.com/api"
+const apiUrl = "http://localhost:3003/api"
 export const API_URL = apiUrl
 export const TODOS = "Todos"
 /**
@@ -22,16 +22,18 @@ export const TODOS = "Todos"
  * @returns {Promise} the Promise for a data response
  */
 export default async (type, resource, params) => {
-  if(type === CREATE && resource === TODOS) {
-    
+  if (type === CREATE  || type === UPDATE && resource === TODOS) {
     const file = params.data.path.rawFile
     let formdata = new FormData()
-    formdata.append('file',file)
-    formdata.append('upload_preset','mgfc0zar')
-    let response = await fetch(`https://api.cloudinary.com/v1_1/dxety0ieg/image/upload`,{
-      method:"POST",
-      body:formdata,
-    })
+    formdata.append("file", file)
+    formdata.append("upload_preset", "mgfc0zar")
+    let response = await fetch(
+      `https://api.cloudinary.com/v1_1/dxety0ieg/image/upload`,
+      {
+        method: "POST",
+        body: formdata
+      }
+    )
     response = await response.json()
     params.data.path = response.secure_url
   }
@@ -141,10 +143,10 @@ export default async (type, resource, params) => {
       throw new Error(`Unsupported Data Provider request type ${type}`)
   }
 
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem("token")
   options.headers = {
     ...options.headers,
-    mode:"cors",
+    mode: "cors",
     Authorization: token
   }
   console.log(url, {
@@ -168,20 +170,20 @@ export default async (type, resource, params) => {
     })
     .then(json => {
       console.log(json)
-      if(!json.done) {
+      if (!json.done) {
         alert(json.message)
         return
       }
       switch (type) {
-        case GET_MANY:
-          console.log("data in get many", json)
-          return {
-            data: json.response
-          }
+        // case GET_MANY:
+        //   console.log("data in get many", json)
+        //   return {
+        //     data: json.response
+        //   }
         case GET_LIST:
           console.log("get list", json)
           let data = json.todos
-          data = data.map((todo) => ({ id: todo._id, ...todo }));
+          data = data.map(todo => ({ id: todo._id, ...todo }))
           console.log({
             data,
             total: json.todos.length
@@ -190,7 +192,6 @@ export default async (type, resource, params) => {
             data,
             total: json.total
           }
-          break
         case CREATE:
         case UPDATE:
         case DELETE:

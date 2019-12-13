@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
+import { Redirect } from 'react-router';
 import { userLogin, useNotify } from "react-admin"
 import Avatar from "@material-ui/core/Avatar"
 import Button from "@material-ui/core/Button"
@@ -150,7 +151,7 @@ class MyLoginPage extends Component {
         email: document.getElementById("email").value,
         password: document.getElementById("password").value
       }
-      
+
       let response = await fetch(`${API_URL}/user/create`, {
         method: "POST",
         headers: {
@@ -161,12 +162,12 @@ class MyLoginPage extends Component {
       })
       response = await response.json()
       console.log(response)
-      if(response.done){
-        localStorage.setItem('token',response.token)
+      if (response.done) {
+        localStorage.setItem("token", response.token)
         alert("SignUp Successful \n Login to Continue")
         this.changeState(true)
         return
-      }else {
+      } else {
         alert(response.message)
       }
     } catch (exception) {
@@ -174,14 +175,20 @@ class MyLoginPage extends Component {
     }
   }
   render() {
-    return this.state.login ? (
-      <SignInSide
-        submit={this.submit}
-        changeState={this.changeState.bind(this)}
-      />
-    ) : (
-      <Signup signup={this.signup} changeState={this.changeState.bind(this)} />
-    )
+    const token = localStorage.getItem("token")
+    if (token) return <Redirect to="/todos" />
+    else
+      return this.state.login ? (
+        <SignInSide
+          submit={this.submit}
+          changeState={this.changeState.bind(this)}
+        />
+      ) : (
+        <Signup
+          signup={this.signup}
+          changeState={this.changeState.bind(this)}
+        />
+      )
   }
 }
 
