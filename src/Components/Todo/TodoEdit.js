@@ -14,14 +14,14 @@ export default props => (
     <SimpleForm>
       <TextInput source="title" />
       <TextInput source="desc" />
-      <TextInput source="status" />
+      <TextInput source="status" disable="true"/>
       <DateInput source="targetDate" label="Target Date" />
       <SelectInput
         source="status"
         choices={[
-          { id: "in-process", name: "In-process" },
-          { id: "todo", name: "Todo" },
-          { id: "done", name: "Done" }
+          { id: "in-process", name: "in-process" },
+          { id: "todo", name: "todo" },
+          { id: "done", name: "done" }
         ]}
       />
       {console.log(props.record)}

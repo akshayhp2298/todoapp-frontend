@@ -10,11 +10,11 @@ import {
 } from "react-admin"
 
 export default props => (
-  <Create {...props}>
-    <SimpleForm>
+  <Create {...props} >
+    <SimpleForm redirect="/todos">
       <TextInput source="title" />
       <TextInput source="desc" />
-      <TextInput source="status" />
+      <TextInput source="status" disable="true" />
       <DateInput source="targetDate" label="Target Date" />
       <SelectInput
         source="status"
