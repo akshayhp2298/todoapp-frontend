@@ -9,8 +9,8 @@ import {
   DELETE_MANY
 } from "react-admin"
 
-const apiUrl = "https://todoapp2298.herokuapp.com/api"
-// const apiUrl = "http://localhost:3003/api"
+// const apiUrl = "https://todoapp2298.herokuapp.com/api"
+const apiUrl = "http://localhost:3003/api"
 export const API_URL = apiUrl
 export const TODOS = "Todos"
 /**
@@ -22,13 +22,22 @@ export const TODOS = "Todos"
  * @returns {Promise} the Promise for a data response
  */
 export default async (type, resource, params) => {
-  if (type === CREATE  || type === UPDATE && resource === TODOS) {
+  delete params.filter.q
+  if (type === CREATE || (type === UPDATE && resource === TODOS)) {
     const file = params.data.path.rawFile
+    let url = `https://api.cloudinary.com/v1_1/dxety0ieg`
+    if (file.type.includes("image")) {
+      params.data.type = 'image'
+      url = `${url}/image/upload`
+    } else if (file.type.includes("video")) {
+      params.data.type = 'video'
+      url = `${url}/image/upload`
+    }
     let formdata = new FormData()
     formdata.append("file", file)
     formdata.append("upload_preset", "mgfc0zar")
     let response = await fetch(
-      `https://api.cloudinary.com/v1_1/dxety0ieg/image/upload`,
+      url,
       {
         method: "POST",
         body: formdata
@@ -50,6 +59,7 @@ export default async (type, resource, params) => {
       const { page, perPage } = params.pagination
       const { field, order } = params.sort
       options.method = "get"
+      console.log(params.filter)
       const query = {
         sort: JSON.stringify([field, order]),
         range: JSON.stringify([(page - 1) * perPage, page * perPage - 1]),
@@ -82,7 +92,7 @@ export default async (type, resource, params) => {
       console.log("params.data", new Date(params.data.targetDate).getTime())
       switch (resource) {
         case TODOS:
-          url = `${API_URL}/todos/create` //new url
+          url = `${API_URL}/todos/create`
           break
         default:
           break
@@ -94,7 +104,7 @@ export default async (type, resource, params) => {
       options.body = params.data
       switch (resource) {
         case TODOS:
-          url = `${apiUrl}/todos/update/${params.id}` //new url
+          url = `${apiUrl}/todos/update/${params.id}` 
           break
       }
       break
@@ -114,12 +124,11 @@ export default async (type, resource, params) => {
       const deleteQuery = {
         filter: JSON.stringify({ ids: params.ids })
       }
-
       switch (resource) {
         case TODOS:
           url = `${apiUrl}/todos/delete/many`
           options.method = "DELETE"
-          // options.body = JSON.stringify(deleteQuery);
+          options.body = JSON.stringify(deleteQuery);
           break
         default:
           break

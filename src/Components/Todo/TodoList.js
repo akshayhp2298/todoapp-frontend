@@ -28,7 +28,6 @@ const cardStyle = {
   verticalAlign: "top"
 }
 const TodoGrid = ({ ids, data, basePath }) =>
-
   ids.length !== 0 ? (
     <div style={{ margin: "2em" }}>
       {ids.map(id => (
@@ -78,13 +77,12 @@ TodoGrid.defaultProps = {
   ids: []
 }
 export default props => (
-  <List {...props} title="Todos" sort={{ field: 'targetDate', order: 'ASC' }}>
+  <List {...props} title="Todos" filters={<TodoFilter />} sort={{ field: "targetDate", order: "ASC" }}>
     <TodoGrid></TodoGrid>
   </List>
 )
 
 const CustomDateField = ({ record = {}, source }) => {
-  
   const data = new Date(record[source])
 
   return <span>{data.toDateString()}</span>
@@ -93,7 +91,8 @@ const CustomDateField = ({ record = {}, source }) => {
 const TodoFilter = props => {
   return (
     <Filter {...props}>
-      <TextInput label="title.search" source="title" alwaysOn />
+      <TextInput label="Search Title" source="title" alwaysOn />
+      <TextInput label="Description" source="desc" />
     </Filter>
   )
 }
