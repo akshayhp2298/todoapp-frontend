@@ -24,8 +24,8 @@ export default props => (
           { id: "done", name: "done" }
         ]}
       />
-      <ImageInput source="path" label="Related pictures" accept="image/*">
-        <ImageField source="src" title="title" />
+      <ImageInput source="path" label="Related pictures" accept="">
+        <ImageField source="path" title="title" />
       </ImageInput>
     </SimpleForm>
   </Create>

@@ -9,8 +9,8 @@ import {
   DELETE_MANY
 } from "react-admin"
 
-const apiUrl = "https://todoapp2298.herokuapp.com/api"
-// const apiUrl = "http://localhost:3003/api"
+// const apiUrl = "https://todoapp2298.herokuapp.com/api"
+const apiUrl = "http://localhost:3003/api"
 export const API_URL = apiUrl
 export const TODOS = "Todos"
 /**
@@ -22,28 +22,26 @@ export const TODOS = "Todos"
  * @returns {Promise} the Promise for a data response
  */
 export default async (type, resource, params) => {
-  delete params.filter.q
+  if (params.filter && params.filter.q) delete params.filter.q
   if (type === CREATE || (type === UPDATE && resource === TODOS)) {
     const file = params.data.path.rawFile
     let url = `https://api.cloudinary.com/v1_1/dxety0ieg`
     if (file.type.includes("image")) {
-      params.data.type = 'image'
+      params.data.type = "image"
       url = `${url}/image/upload`
     } else if (file.type.includes("video")) {
-      params.data.type = 'video'
-      url = `${url}/image/upload`
+      params.data.type = "video"
+      url = `${url}/video/upload`
     }
     let formdata = new FormData()
     formdata.append("file", file)
     formdata.append("upload_preset", "mgfc0zar")
-    let response = await fetch(
-      url,
-      {
-        method: "POST",
-        body: formdata
-      }
-    )
+    let response = await fetch(url, {
+      method: "POST",
+      body: formdata
+    })
     response = await response.json()
+    console.log(response)
     params.data.path = response.secure_url
   }
   console.log("Dataprovider", type, resource, params)
@@ -104,7 +102,7 @@ export default async (type, resource, params) => {
       options.body = params.data
       switch (resource) {
         case TODOS:
-          url = `${apiUrl}/todos/update/${params.id}` 
+          url = `${apiUrl}/todos/update/${params.id}`
           break
       }
       break
@@ -128,7 +126,7 @@ export default async (type, resource, params) => {
         case TODOS:
           url = `${apiUrl}/todos/delete/many`
           options.method = "DELETE"
-          options.body = JSON.stringify(deleteQuery);
+          options.body = JSON.stringify(deleteQuery)
           break
         default:
           break
@@ -204,9 +202,10 @@ export default async (type, resource, params) => {
         case CREATE:
         case UPDATE:
         case DELETE:
+          json.todo.id = json.todo._id
           return { data: { ...json.todo } }
-
         default:
+          json.todo.id = json.todo._id
           return { data: json.todo }
       }
     })
