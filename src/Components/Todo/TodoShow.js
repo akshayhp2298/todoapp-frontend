@@ -12,7 +12,7 @@ import Card from "@material-ui/core/Card"
 import CardActions from "@material-ui/core/CardActions"
 import CardContent from "@material-ui/core/CardContent"
 import CardHeader from "@material-ui/core/CardHeader"
-
+import { TodoTitle } from "./TodoEdit"
 const cardStyle = {
   width: "100%",
   minHeight: 300,
@@ -46,10 +46,16 @@ class MyComparator extends React.Component {
             </Fragment>
           </CardContent>
           <CardContent>
-            {record.type === "image" ? (
+            {record.type === "image" && (
               <ImageField record={record} source="path" />
-            ) : (
+            )}
+            {record.type === "video" && (
               <video src={record.path} width="300px" controls></video>
+            )}
+            {record.type !== "video" && record.type !== "image" && (
+              <Fragment>
+              No Media 
+            </Fragment>
             )}
             <br />
             <Fragment>
@@ -78,7 +84,7 @@ const CustomDateField = ({ record = {}, source }) => {
 }
 
 export default props => (
-  <Show {...props}>
+  <Show title={<TodoTitle />} {...props}>
     <SimpleShowLayout>
       <MyComparator {...props} />
     </SimpleShowLayout>

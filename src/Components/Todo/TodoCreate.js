@@ -14,8 +14,8 @@ export default props => (
     <SimpleForm redirect="/todos">
       <TextInput source="title" />
       <TextInput source="desc" />
-      <TextInput source="status" disable="true" />
       <DateInput source="targetDate" label="Target Date" />
+      <TextInput source="status" disabled />
       <SelectInput
         source="status"
         choices={[

@@ -22,7 +22,11 @@ export const TODOS = "Todos"
  */
 export default async (type, resource, params) => {
   if (params.filter && params.filter.q) delete params.filter.q
-  if ((type === CREATE || type === UPDATE) && (resource === TODOS) && params.data.path) {
+  if (
+    (type === CREATE || type === UPDATE) &&
+    resource === TODOS &&
+    params.data.path
+  ) {
     console.log("checking for path")
     const file = params.data.path.rawFile
     let url = `https://api.cloudinary.com/v1_1/dxety0ieg`
@@ -126,7 +130,7 @@ export default async (type, resource, params) => {
         case TODOS:
           url = `${apiUrl}/todos/delete/many`
           options.method = "DELETE"
-          options.body = JSON.stringify(deleteQuery)
+          options.body = { ids: params.ids }
           break
         default:
           break
@@ -201,9 +205,11 @@ export default async (type, resource, params) => {
           }
         case CREATE:
         case UPDATE:
-        case DELETE:
           json.todo.id = json.todo._id
           return { data: { ...json.todo } }
+        case DELETE:
+        case DELETE_MANY:
+          return
         default:
           json.todo.id = json.todo._id
           return { data: json.todo }

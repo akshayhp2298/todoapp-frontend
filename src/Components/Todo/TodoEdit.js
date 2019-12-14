@@ -9,13 +9,16 @@ import {
   ImageInput
 } from "react-admin"
 
+export const TodoTitle = ({ record }) => {
+  return <span>Todo {record ? `"${record.title}"` : ''}</span>;
+};
 export default props => (
-  <Edit {...props}>
+  <Edit title={<TodoTitle />} {...props}>
     <SimpleForm>
       <TextInput source="title" />
       <TextInput source="desc" />
-      <TextInput source="status" disable="true"/>
       <DateInput source="targetDate" label="Target Date" />
+      <TextInput source="status" disabled/>
       <SelectInput
         source="status"
         choices={[
