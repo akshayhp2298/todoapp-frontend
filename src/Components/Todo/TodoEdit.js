@@ -18,7 +18,6 @@ export default props => (
       <TextInput source="title" />
       <TextInput source="desc" />
       <DateInput source="targetDate" label="Target Date" />
-      <TextInput source="status" disabled/>
       <SelectInput
         source="status"
         choices={[

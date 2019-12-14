@@ -2,16 +2,27 @@
 <html lang="en">
   <head>
     <style>
-      .MuiIconButton{
-        display:none
+      .MuiIconButton {
+        display: none;
       }
       .MuiDrawer-docked {
-        display: none 
+        display: none;
       }
-      .Layout-appFrame-2{
-        margin:5em
+      .Layout-appFrame-2 {
+        margin: 5em;
       }
-
+      .jss4 {
+        padding: 20px;
+      }
+      .Layout-appFrame-2:first-child .MuiPaper-root:first-child .MuiToolbar-root:first-child .MuiButtonBase-root:first-child {
+        display:none
+      }
+      .Layout-appFrame-2:first-child .MuiPaper-root:first-child .MuiToolbar-root:first-child > div .MuiButtonBase-root:first-child {
+        display:flex
+      }
+      .Layout-appFrame-2:first-child .MuiPaper-root:first-child .MuiToolbar-root:first-child .MuiTypography-root {
+        margin-left:2em
+      }
     </style>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
