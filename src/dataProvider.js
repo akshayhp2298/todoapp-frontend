@@ -102,6 +102,8 @@ export default async (type, resource, params) => {
         case TODOS:
           url = `${apiUrl}/todos/update/${params.id}`
           break
+        default:
+          break
       }
       break
     case DELETE:
@@ -116,9 +118,6 @@ export default async (type, resource, params) => {
       }
       break
     case DELETE_MANY:
-      const deleteQuery = {
-        filter: JSON.stringify({ ids: params.ids })
-      }
       switch (resource) {
         case TODOS:
           url = `${apiUrl}/todos/delete/many`
@@ -129,20 +128,6 @@ export default async (type, resource, params) => {
           break
       }
       break
-    case GET_MANY: {
-      const query = {
-        filter: JSON.stringify({ ids: params.ids })
-      }
-      url = `${apiUrl}/${resource}?${stringify(query)}`
-      switch (resource) {
-        case TODOS:
-          url = `${apiUrl}/todos/get/by/ids?${stringify(query)}` //new url
-          break
-        default:
-          break
-      }
-      break
-    }
     default:
       throw new Error(`Unsupported Data Provider request type ${type}`)
   }
