@@ -5,7 +5,6 @@ export default async (type, params) => {
     try {
       const email = params.username
       const password = params.password
-      console.log(email, password)
       let data = await fetch(`${API_URL}/user/login`, {
         method: "POST",
         headers: {
@@ -23,7 +22,7 @@ export default async (type, params) => {
         localStorage.setItem('token',data.token)
         return Promise.resolve()
       }else{
-        alert(data.message)
+        alert("Invalid email or password")
         return Promise.reject()
       }
     } catch (exception) {

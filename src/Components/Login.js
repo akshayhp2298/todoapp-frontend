@@ -159,7 +159,6 @@ class MyLoginPage extends Component {
         body: JSON.stringify(credentials)
       })
       response = await response.json()
-      console.log(response)
       if (response.done) {
         localStorage.setItem("token", response.token)
         alert("SignUp Successful \n Login to Continue")

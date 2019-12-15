@@ -5,7 +5,6 @@ import {
   CREATE,
   UPDATE,
   DELETE,
-  GET_MANY,
   DELETE_MANY
 } from "react-admin"
 const apiUrl = "https://todoapp2298.herokuapp.com/api"
@@ -27,7 +26,6 @@ export default async (type, resource, params) => {
     resource === TODOS &&
     params.data.path
   ) {
-    console.log("checking for path")
     const file = params.data.path.rawFile
     let url = `https://api.cloudinary.com/v1_1/dxety0ieg`
     if (file.type.includes("image")) {
@@ -45,10 +43,8 @@ export default async (type, resource, params) => {
       body: formdata
     })
     response = await response.json()
-    console.log(response)
     params.data.path = response.secure_url
   }
-  console.log("Dataprovider", type, resource, params)
   let url = ""
   const options = {
     headers: new Headers({
@@ -61,7 +57,6 @@ export default async (type, resource, params) => {
       const { page, perPage } = params.pagination
       const { field, order } = params.sort
       options.method = "get"
-      console.log(params.filter)
       const query = {
         sort: JSON.stringify([field, order]),
         range: JSON.stringify([(page - 1) * perPage, page * perPage - 1]),
@@ -91,7 +86,6 @@ export default async (type, resource, params) => {
       options.method = "POST"
       params.data.targetDate = new Date(params.data.targetDate).getTime()
       options.body = params.data
-      console.log("params.data", new Date(params.data.targetDate).getTime())
       switch (resource) {
         case TODOS:
           url = `${API_URL}/todos/create`
@@ -116,7 +110,6 @@ export default async (type, resource, params) => {
         case TODOS:
           url = `${apiUrl}/todos/delete`
           options.body = { _id: params.id }
-          console.log("todoId", params.id)
           break
         default:
           break
@@ -160,14 +153,7 @@ export default async (type, resource, params) => {
     mode: "cors",
     Authorization: token
   }
-  console.log(url, {
-    body: JSON.stringify(options.body),
-    headers: {
-      "Content-Type": "application/json",
-      ...options.headers
-    },
-    method: options.method
-  })
+  
   return fetch(url, {
     body: JSON.stringify(options.body),
     headers: {
@@ -180,35 +166,31 @@ export default async (type, resource, params) => {
       return res.json()
     })
     .then(json => {
-      console.log(json)
       if (!json.done) {
-        // alert(json.message)
+        alert(json.message)
         return Promise.reject(json.message)
       }
       switch (type) {
-        // case GET_MANY:
-        //   console.log("data in get many", json)
-        //   return {
-        //     data: json.response
-        //   }
+        
         case GET_LIST:
-          console.log("get list", json)
           let data = json.todos
           data = data.map(todo => ({ id: todo._id, ...todo }))
-          console.log({
-            data,
-            total: json.todos.length
-          })
+          
           return {
             data,
             total: json.total
           }
         case CREATE:
+          alert('Todo Created')
+          json.todo.id = json.todo._id
+          return { data: { ...json.todo } }
         case UPDATE:
+            alert('Todo Updated')
           json.todo.id = json.todo._id
           return { data: { ...json.todo } }
         case DELETE:
         case DELETE_MANY:
+            alert('Todo Deleted')
           return
         default:
           json.todo.id = json.todo._id

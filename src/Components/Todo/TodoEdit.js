@@ -26,7 +26,6 @@ export default props => (
           { id: "done", name: "done" }
         ]}
       />
-      {console.log(props.record)}
       <ImageInput source="path" label="Related pictures" accept="">
         <ImageField source="path" title="title" />
       </ImageInput>
