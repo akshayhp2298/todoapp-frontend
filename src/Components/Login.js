@@ -160,8 +160,7 @@ class MyLoginPage extends Component {
       })
       response = await response.json()
       if (response.done) {
-        localStorage.setItem("token", response.token)
-        alert("SignUp Successful \n Login to Continue")
+        alert("SignUp Successful\nLogin to Continue")
         this.changeState(true)
         return
       } else {

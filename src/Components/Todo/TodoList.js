@@ -15,12 +15,13 @@ const isSmall = window.innerWidth <= 600
 export default props => (
   <List {...props} title="Todos" filters={<TodoFilter />}>
     {isSmall ? (
-      <SimpleList
+      <SimpleList 
         primaryText={record => record.title}
         secondaryText={record => record.desc}
         tertiaryText={record =>
           new Date(record.targetDate).toLocaleDateString()
         }
+        linkType="show"
       />
     ) : (
       <Datagrid rowClick="show">
