@@ -53,9 +53,7 @@ class MyComparator extends React.Component {
               <video src={record.path} width="300px" controls></video>
             )}
             {record.type !== "video" && record.type !== "image" && (
-              <Fragment>
-              No Media 
-            </Fragment>
+              <Fragment>No Media</Fragment>
             )}
             <br />
             <Fragment>
@@ -68,8 +66,11 @@ class MyComparator extends React.Component {
             </Fragment>
           </CardContent>
           <CardActions style={{ textAlign: "right" }}>
-            <DeleteButton />
-            <EditButton />
+            <DeleteButton
+              resource="Todos"
+              basePath={this.props.basePath}
+              record={record}
+            />
           </CardActions>
         </Card>
       </Fragment>
