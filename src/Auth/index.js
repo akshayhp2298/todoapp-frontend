@@ -35,8 +35,8 @@ export default async (type, params) => {
     return Promise.resolve()
   }
   if (type === AUTH_ERROR) {
-    // localStorage.removeItem('token')
-    return Promise.resolve()
+    localStorage.removeItem('token')
+    return Promise.reject()
   }
   if (type === AUTH_CHECK) {
     let token = localStorage.getItem("token")
