@@ -27,23 +27,25 @@ export default async (type, resource, params) => {
     params.data.path
   ) {
     const file = params.data.path.rawFile
-    let url = `https://api.cloudinary.com/v1_1/dxety0ieg`
-    if (file.type.includes("image")) {
-      params.data.type = "image"
-      url = `${url}/image/upload`
-    } else if (file.type.includes("video")) {
-      params.data.type = "video"
-      url = `${url}/video/upload`
+    if (file) {
+      let url = `https://api.cloudinary.com/v1_1/dxety0ieg`
+      if (file.type.includes("image")) {
+        params.data.type = "image"
+        url = `${url}/image/upload`
+      } else if (file.type.includes("video")) {
+        params.data.type = "video"
+        url = `${url}/video/upload`
+      }
+      let formdata = new FormData()
+      formdata.append("file", file)
+      formdata.append("upload_preset", "mgfc0zar")
+      let response = await fetch(url, {
+        method: "POST",
+        body: formdata
+      })
+      response = await response.json()
+      params.data.path = response.secure_url
     }
-    let formdata = new FormData()
-    formdata.append("file", file)
-    formdata.append("upload_preset", "mgfc0zar")
-    let response = await fetch(url, {
-      method: "POST",
-      body: formdata
-    })
-    response = await response.json()
-    params.data.path = response.secure_url
   }
   let url = ""
   const options = {
@@ -138,7 +140,7 @@ export default async (type, resource, params) => {
     mode: "cors",
     Authorization: token
   }
-  
+
   return fetch(url, {
     body: JSON.stringify(options.body),
     headers: {
@@ -156,26 +158,25 @@ export default async (type, resource, params) => {
         return Promise.reject(json.message)
       }
       switch (type) {
-        
         case GET_LIST:
           let data = json.todos
           data = data.map(todo => ({ id: todo._id, ...todo }))
-          
+
           return {
             data,
             total: json.total
           }
         case CREATE:
-          alert('Todo Created')
+          alert("Todo Created")
           json.todo.id = json.todo._id
           return { data: { ...json.todo } }
         case UPDATE:
-            alert('Todo Updated')
+          alert("Todo Updated")
           json.todo.id = json.todo._id
           return { data: { ...json.todo } }
         case DELETE:
         case DELETE_MANY:
-            alert('Todo Deleted')
+          alert("Todo Deleted")
           return
         default:
           json.todo.id = json.todo._id
